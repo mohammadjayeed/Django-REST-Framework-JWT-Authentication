@@ -2,7 +2,7 @@ from .serializers import RegistrationSerializer
 from rest_framework import generics,status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from users.emails import *
 
 class RegistrationAPIView(generics.GenericAPIView):
     '''Registers user'''
@@ -13,6 +13,7 @@ class RegistrationAPIView(generics.GenericAPIView):
         data = {}
         if serializer.is_valid(raise_exception=True):
             user = serializer.save()
+            send_otp(serializer.data['email'])
             data['response'] = "Registration Successful!"
             refresh = RefreshToken.for_user(user=user)
             data['refresh'] = str(refresh)
