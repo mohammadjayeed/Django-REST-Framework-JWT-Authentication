@@ -1,4 +1,4 @@
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, VerifyOTPSerializer
 from rest_framework import generics,status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -21,3 +21,20 @@ class RegistrationAPIView(generics.GenericAPIView):
             
 
         return Response(data, status.HTTP_201_CREATED)
+
+class VerifyOTPAPIView(generics.GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        serializer = VerifyOTPSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            email = serializer.data['email']
+            otp = serializer.data['otp']
+            user_obj = User.objects.get(email=email)
+            
+            if user_obj.otp == otp:
+                user_obj.is_staff = True
+                user_obj.save()
+                return Response("verified")
+            return Response(serializer.data,status.HTTP_400_BAD_REQUEST)
+
+
+

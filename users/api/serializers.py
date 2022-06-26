@@ -18,8 +18,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
                 {'error': 'passwords did not match'})
 
         user = User(email=self.validated_data['email'],
-                    user_name=self.validated_data['user_name'],is_staff=True)
+                    user_name=self.validated_data['user_name'],is_active=True)
         user.set_password(self.validated_data['password'])
         user.save()
         return user
                     
+class VerifyOTPSerializer(serializers.Serializer):
+
+    email = serializers.EmailField()
+    otp = serializers.CharField()
+    pass
