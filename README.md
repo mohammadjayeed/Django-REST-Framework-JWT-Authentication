@@ -77,4 +77,4 @@ working on implementation of JWT with email OTP
 - Same __Refresh Token__ cannot be used anymore
 - New __Refresh Tokens__ can be used to generate multiple __access__ tokens and __refresh__ tokens
 #### Side Note
-<img src="images/note1.png" width="600">
+<img src="images/note1.jpeg" width="600">
