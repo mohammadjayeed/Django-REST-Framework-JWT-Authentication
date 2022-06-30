@@ -1,6 +1,14 @@
 from users.models import User
 from rest_framework import serializers
 # from rest_framework_simplejwt.serializers import TokenRefreshView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from users.models import User as user
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        return token
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -38,3 +46,9 @@ class VerifyOTPSerializer(serializers.Serializer):
 #         data.update({'id': self.user.id})
 #         # and everything else you want to send in the response
 #         return data
+
+# class LoginTokenGenerationSerializer(serializers.Serializer):
+#     email = serializers.EmailField()
+#     password = serializers.CharField()
+    
+    
